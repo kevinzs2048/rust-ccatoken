@@ -3,8 +3,7 @@
 
 use super::errors::Error;
 use hex_literal::hex;
-use jsonwebkey as jwk;
-use jwk::JsonWebKey;
+use jsonwebtoken::{self as jwt, jwk};
 use serde::Deserialize;
 use serde_json::value::RawValue;
 use std::collections::HashMap;
@@ -20,7 +19,7 @@ pub struct Cpak {
     raw_pkey: Box<RawValue>,
 
     #[serde(skip)]
-    pkey: Option<jwk::JsonWebKey>,
+    pub pkey: Option<jwk::Jwk>,
 
     /// The CCA platform Implementation ID claim uniquely identifies the
     /// implementation of the CCA platform.  The semantics of the CCA platform
@@ -45,7 +44,7 @@ impl Cpak {
     pub fn parse_pkey(&mut self) -> Result<(), Error> {
         let s = self.raw_pkey.get();
 
-        let pkey = serde_json::from_str::<JsonWebKey>(s)
+        let pkey = serde_json::from_str::<jwk::Jwk>(s)
             .map_err(|e| Error::Syntax(e.to_string()))?
             .clone();
 
@@ -120,7 +119,7 @@ mod tests {
         assert_eq!(res.inst_id, *TEST_INST_ID_0);
         assert_eq!(res.impl_id, *TEST_IMPL_ID_0);
 
-        let pkey = serde_json::from_str::<JsonWebKey>(TEST_PKEY_0).unwrap();
+        let pkey = serde_json::from_str::<jwk::Jwk>(TEST_PKEY_0).unwrap();
         assert_eq!(res.pkey, Some(pkey));
     }
 }

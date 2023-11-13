@@ -4,6 +4,7 @@
 pub use self::errors::Error;
 pub use self::refval::RefValueStore;
 pub use self::trustanchor::TrustAnchorStore;
+pub use self::trustanchor::Cpak;
 
 mod errors;
 mod refval;

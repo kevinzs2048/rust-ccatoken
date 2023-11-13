@@ -172,7 +172,7 @@ pub struct Platform {
     profile: String,                      // 265, text ("http://arm.com/CCA-SSD/1.0.0")
     challenge: Vec<u8>,                   // 10, bytes .size {32,48,64}
     impl_id: [u8; 32],                    // 2396, bytes .size 32
-    inst_id: [u8; 33],                    // 256, bytes .size 33
+    pub inst_id: [u8; 33],                    // 256, bytes .size 33
     config: Vec<u8>,                      // 2401, bytes
     lifecycle: u16,                       // 2395, 0x0000..0x00ff ... 0x6000..0x60ff
     sw_components: Vec<SwComponent>,      // 2399, cca-platform-sw-component
